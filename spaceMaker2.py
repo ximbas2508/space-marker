@@ -105,10 +105,16 @@ while executando:
 
     janela.blit(background_image, (0,0))
     desenhar_pontos()
+
+
+    texto_instrucoes = fonte.render(f"Pressione F1 para salvar, F2 para carregar, F3 para excluir", True, cor_ponto)
+    janela.blit(texto_instrucoes, (10, 10))
+    
     pygame.display.flip()
 
 
 
+    
 
 
 pygame.quit()        
