@@ -1,7 +1,7 @@
 import pygame
-import pickle
 from tkinter import simpledialog
 from tkinter import messagebox
+import json
 
 pygame.init()
 
@@ -37,27 +37,32 @@ def desenhar_pontos():
             for i in range(len(pontos) - 1):
                 pygame.draw.line(janela, cor_ponto, pontos[i], pontos[i + 1], 2)
 
-def salvar(filename, marcacoes):
-    try:
-        with open(filename, "wb") as file:
-            pickle.dump(marcacoes, file)
-            print("Dados salvos com sucesso!")
-    except Exception as e:
-        print(f"Erro ao salvar o arquivo: {e}")
-    finally:
-        file.close()
 
+def salvar():
+    with open("stars.json", "w") as file:
+        json.dump(marcacoes, file)
 
-def carregar(filename):
+def carregar():
+    global marcacoes
+
     try:
-        with open(filename, "rb") as file:
-            item = pickle.load(file)
-            return item
+        with open("stars.json", "r") as file:
+            marcacoes = json.load(file)
     except FileNotFoundError:
-        return []
+        marcacoes = []
 
 
+def excluir():
+    global marcacoes
+    marcacoes = []
 
+if marcacoes == []:
+    certeza2 = messagebox.askquestion('Space','deseja continuar com os ultimos dados salvos?')
+    if certeza2 == 'yes':
+        carregar()
+    else:
+        pass
+    
 
 while executando:
     for evento in pygame.event.get():
@@ -66,17 +71,21 @@ while executando:
             executando = False
 
 
-        elif keys[pygame.K_a]:
+        elif keys[pygame.K_F1]:
             certeza = messagebox.askquestion('Space','realmente deseja salvar?')
-            if certeza == 'sim':
-                salvar("dados.pickle", marcacoes)
+            if certeza == 'yes':
+                salvar()
                 print("Dados salvos com sucesso!")
             else:
                 break
 
-        elif keys[pygame.K_d]:
-            item = carregar("dados.pickle")
+        elif keys[pygame.K_F2]:
+            carregar()
             print("Dados carregados com sucesso!")
+
+        elif keys[pygame.K_F3]:
+            excluir()
+            print('dados excluidos com sucesso')
 
 
 
