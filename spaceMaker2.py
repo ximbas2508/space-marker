@@ -69,6 +69,7 @@ while executando:
         keys = pygame.key.get_pressed()
         if evento.type == pygame.QUIT:
             executando = False
+            salvar()
 
 
         elif keys[pygame.K_F1]:
@@ -80,16 +81,24 @@ while executando:
                 break
 
         elif keys[pygame.K_F2]:
-            carregar()
-            print("Dados carregados com sucesso!")
+            certeza3 = messagebox.askquestion('Space','realmente deseja carregar?')
+            if certeza3 == 'yes':
+                carregar()
+                print("Dados carregados com sucesso!")
+            else:
+                pass
 
         elif keys[pygame.K_F3]:
-            excluir()
-            print('dados excluidos com sucesso')
+            certeza4 = messagebox.askquestion('Space','realmente deseja carregar?')
+            
+            if certeza4 =='yes':
+                excluir()
+                print('dados excluidos com sucesso')
+            else:
+                pass
 
 
-
-        elif evento.type == pygame.MOUSEBUTTONDOWN:
+        elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
             pos = pygame.mouse.get_pos()
             item = simpledialog.askstring('Space','Nome da Estrela:')
             if item == '':
@@ -107,14 +116,15 @@ while executando:
     desenhar_pontos()
 
 
-    texto_instrucoes = fonte.render(f"Pressione F1 para salvar, F2 para carregar, F3 para excluir", True, cor_ponto)
+    texto_instrucoes = fonte.render(f"Pressione F1 para salvar", True, cor_ponto)
+    texto_instrucoes2 = fonte.render(f"Pressione F2 para carregar", True, cor_ponto)
+    texto_instrucoes3 = fonte.render(f"Pressione F3 para excluir", True, cor_ponto)
     janela.blit(texto_instrucoes, (10, 10))
+    janela.blit(texto_instrucoes2, (10, 30))
+    janela.blit(texto_instrucoes3, (10, 50))
     
     pygame.display.flip()
 
-
-
-    
 
 
 pygame.quit()        
